@@ -1,0 +1,53 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+class RightTriangle
+{
+    public double a,b,c,d;
+    public RightTriangle(double l1, double l2,double l3,double l4)
+    {
+        a = l1;b = l2;c = l3;d = l4;
+    }
+    public RightTriangle(double l1, double l2)
+    {
+        a = l1; b = 0; c = 0; d = l2;
+    }
+    public double det // свойство только для чтения
+    {
+        get { return a*d-b*c; } // вычисляем
+    }
+    public RightTriangle Transpose
+    {get{return new RightTriangle(a, c, b, d); }}
+    public RightTriangle Copy
+    { get { return new RightTriangle(a, b, c, d); } }
+    public static RightTriangle operator +(RightTriangle A, RightTriangle B)
+    {return new RightTriangle(A.a + B.a, A.b + B.b, A.c + B.c, A.d + B.d);}
+    public static RightTriangle Neg(RightTriangle A)
+    {return new RightTriangle(-A.a, -A.b, -A.c, -A.d);}
+    public override string ToString()
+    {
+        return a + "\t" + b + "\n" + c + "\t" + d;
+    }
+}
+class Program
+{
+    static void Main()
+    {
+        RightTriangle C = new RightTriangle(double.Parse(Console.ReadLine()), double.Parse(Console.ReadLine()), double.Parse(Console.ReadLine()), double.Parse(Console.ReadLine()));
+        Console.WriteLine("Determenant: {0}", C.det);
+        RightTriangle D = C.Transpose;
+        RightTriangle E = C.Copy;
+        Console.WriteLine(D.a + " " + D.b + " " + D.c + " " + D.d + " " + D.det);
+        Console.WriteLine(E.a + " " + E.b + " " + E.c + " " + E.d + " " + E.det);
+        RightTriangle F = RightTriangle.Neg(C);
+        Console.WriteLine(F.a + " " + F.b + " " + F.c + " " + F.d + " " + F.det);
+        RightTriangle L = C+D;
+        Console.WriteLine(L.a + " " + L.b + " " + L.c + " " + L.d + " " + L.det);
+        Console.WriteLine(C.ToString());
+        Console.ReadLine();
+
+    }
+}
