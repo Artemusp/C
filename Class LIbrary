@@ -1,0 +1,139 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+// БИБЛИОТЕКА КНИГ
+
+
+namespace ConsoleApp2
+{
+    class Library
+    {
+        Book[] books;
+        public int Length
+        {
+            get { return books.Length; } 
+        }
+        public Library()
+        {
+            books = new Book[0];//массив длины 0
+        }
+        public Library(Book[] books)
+        {
+            this.books = books;//присваиваем ссылки на массив книг
+        }
+        public Library(Library lib)
+        {
+            books = new Book[lib.Length];// копия(не ссылки на массив книг)
+            for (int i =0;i<lib.Length;i++)
+            {
+                books[i] = new Book(lib[i]);//для этого нужен индексатор);
+                //books[i] = new Book(lib.books[i].Name, lib.books[i].Section, lib.books[i].Pages);
+            }
+        }
+        public Book this[int index]//индексатор
+        {
+            get
+            {
+                return books[index];
+            }
+            set
+            {
+                books[index] = value;
+            }
+        }
+        public void addBook(Book b)//книга
+        {
+            Array.Resize(ref books, Length + 1);
+            books[Length - 1] = b;
+
+        }
+        public void addBook(string name, int section,int pages)// параметры книги
+        {
+            Array.Resize(ref books, Length + 1);
+            books[Length - 1] = new Book(name, section, pages);
+        }
+        public Book[] returnBooks(int n)
+        {
+            // дать ссылку на массив книг(название,страницы и секции) в которых меньше либо равно n страниц
+            Book[] nums = new Book[0];
+            for(int i =0;i<Length;i++)
+            {
+                if (books[i].Pages <=n)
+                {
+                    Array.Resize(ref nums, nums.Length + 1);
+                    nums[nums.Length - 1] = books[i];
+                }
+            }
+            return nums;
+        }
+
+    }
+    class Book
+    {
+        int section, pages;
+        string name;
+        public string Name
+        {
+            get { return name; }
+            private set { name = value; }
+        }
+        public int Pages
+        {
+            get { return pages; }
+            private set { pages = value; }
+
+        }
+        public int Section
+        {
+            get { return section; }
+            private set { section = value; }
+        }
+        public Book(string name = "a", int section = 1, int pages = 1)
+        {
+            this.name = name;
+            this.section = section;
+            this.pages = pages;
+
+        }
+        public Book(Book b)
+        {
+            name = b.name;
+            pages = b.pages;
+            section = b.section;
+        }
+        
+    }
+    class Program
+    {
+        static void Main()
+        {
+            string s;
+            int a, b;
+            
+            
+            Library L = new Library();
+            int n;
+            n = int.Parse(Console.ReadLine());
+            Random lu = new Random();
+            for(int j =0;j<n;j++)
+            {
+                s = Console.ReadLine();
+                a = lu.Next(100);
+                b = lu.Next(100);
+                Book A = new Book(s, a, b);
+                L.addBook(A);
+                
+            }
+            Book[] LA = (L.returnBooks(50));
+            // Вывод названий книг в которых меньше либо равно 50 страниц
+            for (int j=0;j<LA.Length;j++)
+            {
+                Console.WriteLine(LA[j].Name + "\t" + LA[j].Pages);
+            }
+            Console.ReadLine();
+
+        }
+    }
+}
