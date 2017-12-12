@@ -1,0 +1,74 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace ConsoleApp15
+{
+
+
+    class Point{
+       
+
+        public virtual double Area
+        {
+            get { return 0; }
+        }
+        public double X { get; set; }
+        public double Y { get; set; }
+        
+        public virtual void display()
+        {
+            Console.WriteLine(X + " " + Y);
+        }
+    }
+    
+    class Circle : Point
+    {
+        double rad;
+        public Circle(double x1, double y1, double rad1)
+        {
+            X = x1;
+            Y = y1;
+            rad = rad1;
+        }
+        public double Rad
+        {
+            get { return rad; }
+            set { rad = value; }
+            
+        }
+        public override void display()
+        {
+            Console.WriteLine(X + " " + Y + " " + Rad+ " " + Len);
+        }
+        public override double Area
+        {
+            get { return Math.PI * Rad * Rad; }
+        }
+        public virtual double Len
+        {
+            get { return 2 * Math.PI * Rad; }
+        }
+    }
+    
+   
+    class Program
+    {
+        static void Main()
+        {
+
+            Point p = new Point();
+            p.display();
+            Console.WriteLine(p.Area);
+            p = new Circle(1, 2, 5);
+            p.display();
+            Console.WriteLine(p.Area);
+            Circle s = new Circle(1, 2, 2);
+            Console.WriteLine(s.Len);
+            Console.ReadLine();
+        }
+
+    }
+}
