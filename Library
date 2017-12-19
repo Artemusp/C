@@ -1,0 +1,172 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace ClassLibrary1
+{
+    public class Library
+    {
+        public static string[] names_1 = { "Alexander", "Alexey", "Anatoliy" };
+        public static string[] names_2 = { "Dasha", "Varya" ,"Anya"};
+        public static string[] eyecolors = { "blue", "white", "pink" };
+        public static string[] haircolors = { "pink", "grey", "orange" };
+        
+    }
+    
+    public class Kid
+    {
+        private string name;
+        private bool sex;
+        private int weight;
+        private int length;
+        private string eyecolor;
+        private string haircolor;
+        public string Name { get { return name; } set { name = value; } }
+        public bool Sex { get { return sex; } set { sex = value; } }
+        public int Weight { get { return weight; } set { weight = value; } }
+        public int LEngth { get { return length; } set { length = value; } }
+        public string Eyecolor { get { return eyecolor; } set { eyecolor = value; } }
+        public string Haircolor { get { return haircolor; } set { haircolor = value; } }
+       
+        private static readonly Random random = new Random();
+        private static readonly object syncLock = new object();
+        public static int RN(int min, int max)
+        {
+            lock (syncLock)
+            { // synchronize 
+                return random.Next(min, max);
+            }
+        }
+        public Kid()
+        {
+            
+            
+            if(RN(0,2) == 0)
+            {
+                sex = true;
+                Name = Library.names_1[RN(0, 3)];
+            }
+            else
+            {
+                sex = false;
+                Name = Library.names_2[RN(0, 3)];
+
+            }
+            eyecolor = Library.eyecolors[RN(0, 3)];
+            haircolor = Library.haircolors[RN(0, 3)];
+            weight = RN(1, 100);
+            length = RN(1, 180);
+
+
+
+        }
+        public Kid(string name, bool sex, int weight, int length, string eyecolor, string haircolor)
+        {
+            this.name = name;
+            this.sex = sex;
+            this.weight = weight;
+            this.length = length;
+            this.eyecolor = eyecolor;
+            this.haircolor = haircolor;
+        }
+    }
+    public class Kindergraten
+    {
+        private static readonly Random random = new Random();
+        private static readonly object syncLock = new object();
+        public static int RNO(int min, int max)
+        {
+            lock (syncLock)
+            { // synchronize 
+                return random.Next(min, max);
+            }
+        }
+        Random rand = new Random();
+        Kid[] kids = new Kid[1];
+        public int size = 0;
+        
+
+       
+        
+        
+        
+
+
+
+
+       
+        public Kid this[int n]
+        {
+            
+            get
+            {
+                
+                return kids[n];
+            }
+            
+        }
+        public Kindergraten()
+        {
+            
+            kids = new Kid[RNO(1, 10)];
+            size = kids.Length;
+            for(int j =0;j<size;j++)
+            {
+                kids[j] = new Kid();
+            }
+        }
+        public int Size
+        {
+            get
+            {
+                
+                return size;
+            }
+            
+        }
+        public void Add()
+        {
+            if(size == kids.Length)
+            {
+                Array.Resize(ref kids, kids.Length * 2+1);
+            }
+            size++;
+            kids[size - 1] = new Kid();
+        }
+        public void Cut(int i)
+        {
+            for(int j=0;j<size-1;j++)
+            {
+                if(j>=i)
+                kids[j] = kids[j + 1];
+            }
+            size -= 1;
+        }
+        public void Sort()
+        {
+            
+            for (int i = 0; i < size;i++)
+            {
+                for(int j = 0;j<size-1;j++)
+                {
+                    if(kids[j].Weight >kids[j+1].Weight)
+                    {
+                        Kid ind;
+                        
+                        ind = kids[j];
+                        kids[j] = kids[j+1];kids[j+1] = ind;
+                        
+                    }
+                }
+                
+            }
+            
+        }
+        
+        
+
+
+    }
+}
